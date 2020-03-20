@@ -59,7 +59,7 @@ type SQLRow struct {
 }
 
 func (sqlRow *SQLRow) Scan(args ...interface{}) error {
-	return sqlRow.Rows.Scan(args)
+	return sqlRow.Rows.Scan(args...)
 }
 
 func (sqlRow *SQLRow) Next() bool {

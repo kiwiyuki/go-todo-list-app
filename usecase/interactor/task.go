@@ -10,11 +10,11 @@ type TaskInteractor struct {
 }
 
 func (tasksInteractor *TaskInteractor) Create(t model.Task) (task model.Task, err error) {
-	_, err = tasksInteractor.TaskRepository.Create(t)
+	created, err := tasksInteractor.TaskRepository.Create(t)
 	if err != nil {
 		return
 	}
-	task = t
+	task = created
 	return
 }
 
