@@ -1,7 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"go-todo-list-app/infra"
+)
 
 func main() {
-	fmt.Println("Hello World!")
+	err := infra.Router.Run()
+	if err != nil {
+		return
+	}
 }
