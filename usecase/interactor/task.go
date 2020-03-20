@@ -25,3 +25,12 @@ func (tasksInteractor *TaskInteractor) FindAll() (tasks []model.Task, err error)
 	}
 	return
 }
+
+func (tasksInteractor *TaskInteractor) Find(id int64) (task model.Task, err error) {
+	task, err = tasksInteractor.TaskRepository.Find(id)
+	if err != nil {
+		return
+	}
+	return
+}
+

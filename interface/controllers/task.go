@@ -5,6 +5,7 @@ import (
 	"go-todo-list-app/interface/database"
 	usecase "go-todo-list-app/usecase/interactor"
 	"net/http"
+	"strconv"
 )
 
 type TaskController struct {
@@ -40,4 +41,14 @@ func (taskController *TaskController) Index(c Context) {
 		return
 	}
 	c.JSON(http.StatusOK, tasks)
+}
+
+func (taskController *TaskController) Show(c Context) {
+	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
+	task, err := taskController.Interactor.Find(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, NewError(err))
+		return
+	}
+	c.JSON(http.StatusOK, task)
 }

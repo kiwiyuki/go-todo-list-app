@@ -37,3 +37,18 @@ func (taskRepository *TaskRepository) FindAll() (tasks []model.Task, err error) 
 
 	return
 }
+
+func (taskRepository *TaskRepository) Find(id int64) (task model.Task, err error) {
+	row, err := taskRepository.Handler.Query("SELECT * FROM tasks WHERE id = ?", id)
+	defer row.Close()
+	if err != nil {
+		return
+	}
+	row.Next()
+	task = model.Task{}
+	err = row.Scan(&task.ID, &task.Title, &task.Done)
+	if err != nil {
+		return
+	}
+	return
+}
