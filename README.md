@@ -1,6 +1,8 @@
 # go-todo-list-app
 
-適当に table を作る
+~適当に table を作る~
+
+マイグレーションしてくれるからOK
 
 ## Todo 一覧の取得
 
@@ -12,4 +14,10 @@ $ curl localhost:8080/tasks
 
 ```shell script
 $ curl -X POST -H "Content-Type: application/json" -d '{"title": "todo1", "done": false}' localhost:8080/tasks
+```
+
+## Todo 確認
+
+```shell script
+$ curl localhost:8080/tasks/:id
 ```
