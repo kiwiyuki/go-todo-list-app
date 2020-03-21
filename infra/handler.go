@@ -1,71 +1,38 @@
 package infra
 
 import (
-	"database/sql"
+	"go-todo-list-app/domain/model"
 	"go-todo-list-app/interface/database"
 
-	// sqlite3 driver
-	_ "github.com/mattn/go-sqlite3"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
 type SQLHandler struct {
-	Conn *sql.DB
+	Conn *gorm.DB
 }
 
 func NewSQLHandler() database.SQLHandler {
-	conn, err := sql.Open("sqlite3", "./task.db")
+	db, err := gorm.Open("sqlite3", ":memory:")
 	if err != nil {
 		panic(err.Error)
 	}
+
+	db.AutoMigrate(&model.Task{})
+
 	handler := new(SQLHandler)
-	handler.Conn = conn
+	handler.Conn = db
 	return handler
 }
 
-func (sqlHandler *SQLHandler) Execute(query string, args ...interface{}) (database.Result, error) {
-	res := SQLResult{}
-	result, err := sqlHandler.Conn.Exec(query, args...)
-	if err != nil {
-		return res, err
-	}
-	res.Result = result
-	return res, nil
+func (S SQLHandler) Create(value interface{}) *gorm.DB {
+	return S.Conn.Create(value)
 }
 
-func (sqlHandler *SQLHandler) Query(query string, args ...interface{}) (database.Row, error) {
-	rows, err := sqlHandler.Conn.Query(query, args...)
-	if err != nil {
-		return new(SQLRow), err
-	}
-	row := new(SQLRow)
-	row.Rows = rows
-	return row, nil
+func (S SQLHandler) Find(out interface{}, where ...interface{}) *gorm.DB {
+	return S.Conn.Find(out, where...)
 }
 
-type SQLResult struct {
-	Result sql.Result
-}
-
-func (sqlResult SQLResult) LastInsertId() (int64, error) {
-	return sqlResult.Result.LastInsertId()
-}
-
-func (sqlResult SQLResult) RowsAffected() (int64, error) {
-	return sqlResult.Result.RowsAffected()
-}
-
-type SQLRow struct {
-	Rows *sql.Rows
-}
-
-func (sqlRow *SQLRow) Scan(args ...interface{}) error {
-	return sqlRow.Rows.Scan(args...)
-}
-
-func (sqlRow *SQLRow) Next() bool {
-	return sqlRow.Rows.Next()
-}
-
-func (sqlRow *SQLRow) Close() error {
-	return sqlRow.Rows.Close()
+func (S SQLHandler) First(out interface{}, where ...interface{}) *gorm.DB {
+	return S.Conn.First(out, where...)
 }
