@@ -1,6 +1,6 @@
 GO111MODULES=on
 APP?=go-todo-list-app
-REGISTRY?=github.com/raryosu/go-todo-list-app
+REGISTRY?=github.com/kiwiyuki/go-todo-list-app
 COMMIT_SHA=$(shell git rev-parse --short HEAD)
 
 .PHONY: build
@@ -46,7 +46,8 @@ endif
 
 .PHONY: docker-build
 ## docker-build: builds the stringifier docker image to registry
-docker-build: build
+docker-build:
+	GOOS=linux CGO_ENABLED=1 CC=x86_64-linux-musl-gcc make build
 	docker build -t ${APP}:${COMMIT_SHA} .
 
 .PHONY: docker-push
