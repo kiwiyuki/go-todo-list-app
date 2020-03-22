@@ -9,7 +9,8 @@ type TaskRepository struct {
 }
 
 func (taskRepository *TaskRepository) Create(t model.Task) (task model.Task, err error) {
-	err = taskRepository.Handler.Create(&task).Error
+	err = taskRepository.Handler.Create(&t).Error
+	task = t
 	return
 }
 

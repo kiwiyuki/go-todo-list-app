@@ -25,14 +25,14 @@ func NewSQLHandler() database.SQLHandler {
 	return handler
 }
 
-func (S SQLHandler) Create(value interface{}) *gorm.DB {
-	return S.Conn.Create(value)
+func (sqlHandler *SQLHandler) Create(value interface{}) *gorm.DB {
+	return sqlHandler.Conn.Create(value)
 }
 
-func (S SQLHandler) Find(out interface{}, where ...interface{}) *gorm.DB {
-	return S.Conn.Find(out, where...)
+func (sqlHandler *SQLHandler) Find(out interface{}, where ...interface{}) *gorm.DB {
+	return sqlHandler.Conn.Find(out, where...)
 }
 
-func (S SQLHandler) First(out interface{}, where ...interface{}) *gorm.DB {
-	return S.Conn.First(out, where...)
+func (sqlHandler *SQLHandler) First(out interface{}, where ...interface{}) *gorm.DB {
+	return sqlHandler.Conn.First(out, where...)
 }
