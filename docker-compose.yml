@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    hostname: app
+    ports:
+      - 8080:8080
+    command: sh /app/wait.sh /app/go-todo-list-app
+    networks:
+      - db
+  database:
+    image: mysql:8.0
+    hostname: mysql
+    env_file:
+      - .env
+    ports:
+      - 3306:3306
+    volumes:
+      - db:/var/lib/mysql
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    networks:
+      - db
+volumes:
+  db:
+
+networks:
+  db:
