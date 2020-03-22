@@ -1,4 +1,5 @@
-FROM busybox
+FROM alpine
+
+RUN apk add --no-cache mysql-client mysql-dev
 
 COPY . /app
-CMD /app/go-todo-list-app
