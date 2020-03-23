@@ -30,7 +30,7 @@ func (taskRepository *TaskRepository) Update(t model.Task) (task model.Task, err
 		t.DoneAt = time.Now()
 	}
 
-	err = taskRepository.Handler.Update(t.ID, &t).Error
+	err = taskRepository.Handler.Update(&t).Error
 
 	return
 }
