@@ -1,6 +1,10 @@
 package model
 
-import "github.com/jinzhu/gorm"
+import (
+	"time"
+
+	"github.com/jinzhu/gorm"
+)
 
 // 一番内側のDomain層に Interface な層の gorm をimport している
 // gorm.Model は結局 ID, CreatedAt... とかなものなので、剥がしたくなったときに同様なものをここで定義すれば良さそう
@@ -8,6 +12,7 @@ import "github.com/jinzhu/gorm"
 
 type Task struct {
 	gorm.Model
-	Title string `gorm:"NOT NULL"`
-	Done bool `gorm:"NOT NULL"`
+	Title  string `gorm:"NOT NULL"`
+	Done   bool   `gorm:"NOT NULL"`
+	DoneAt time.Time
 }
