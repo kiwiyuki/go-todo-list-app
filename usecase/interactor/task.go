@@ -34,3 +34,10 @@ func (tasksInteractor *TaskInteractor) Find(id int64) (task model.Task, err erro
 	return
 }
 
+func (TaskInteractor *TaskInteractor) Update(t model.Task) (task model.Task, err error) {
+	task, err := TaskInteractor.TaskRepository.Update(t)
+	if err != nil {
+		return
+	}
+	return
+}
