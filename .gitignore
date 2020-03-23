@@ -1,3 +1,4 @@
-go-todo-list-app
+api/go-todo-list-app
 *.db
-.env
+api/.env
+node_modules

@@ -3,7 +3,7 @@ version: "3"
 services:
   app:
     build:
-      context: .
+      context: ./api
       dockerfile: Dockerfile
     hostname: app
     ports:
@@ -15,7 +15,7 @@ services:
     image: mysql:8.0
     hostname: mysql
     env_file:
-      - .env
+      - api/.env
     ports:
       - 3306:3306
     volumes:
