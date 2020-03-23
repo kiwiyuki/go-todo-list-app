@@ -4,6 +4,15 @@
 
 マイグレーションしてくれるからOK
 
+## precommit
+
+diffのあるファイルのフォーマットとテスト
+
+```sh
+ln -s $(pwd)/pre-commit.sh $(pwd)/.git/hooks/pre-commit
+```
+
+
 ## Todo 一覧の取得
 
 ```shell script
