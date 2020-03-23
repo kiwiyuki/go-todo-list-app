@@ -12,7 +12,7 @@ import (
 
 type Task struct {
 	gorm.Model
-	Title  string `gorm:"NOT NULL"`
-	Done   bool   `gorm:"NOT NULL"`
-	DoneAt time.Time
+	Title  string     `gorm:"NOT NULL"`
+	Done   bool       `gorm:"NOT NULL"`
+	DoneAt *time.Time `gorm:"DEFAULT NULL"`
 }

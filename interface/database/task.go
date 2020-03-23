@@ -27,7 +27,8 @@ func (taskRepository *TaskRepository) Find(id int64) (task model.Task, err error
 
 func (taskRepository *TaskRepository) Update(t model.Task) (task model.Task, err error) {
 	if t.Done {
-		t.DoneAt = time.Now()
+		now := time.Now()
+		t.DoneAt = &now
 	}
 
 	err = taskRepository.Handler.Update(&t).Error
