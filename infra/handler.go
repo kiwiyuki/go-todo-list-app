@@ -47,6 +47,6 @@ func (sqlHandler *SQLHandler) First(out interface{}, where ...interface{}) *gorm
 	return sqlHandler.Conn.First(out, where...)
 }
 
-func (sqlHandler *SQLHandler) Update(id interface{}, after interface{}) *gorm.DB {
-	return sqlHandler.Conn.Model(id).Update(after)
+func (sqlHandler *SQLHandler) Update(after interface{}) *gorm.DB {
+	return sqlHandler.Conn.Save(after)
 }

@@ -53,11 +53,23 @@ func (taskController *TaskController) Show(c Context) {
 	c.JSON(http.StatusOK, task)
 }
 
-func (TaskController *TaskController) Update(c Context) {
-	t := model.Task{}
-	err := c.Bind(&t)
+func (taskController *TaskController) Update(c Context) {
+	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
+	task, err := taskController.Interactor.Find(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, NewError(err))
+		return
+	}
 
-	task, err := TaskController.Interactor.Update(t)
+	t := model.Task{}
+	err = c.Bind(&t)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, NewError(err))
+		return
+	}
+
+	t.ID = uint(id)
+	task, err = taskController.Interactor.Update(t)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, NewError(err))
 		return
