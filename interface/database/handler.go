@@ -6,4 +6,5 @@ type SQLHandler interface {
 	Create(value interface{}) *gorm.DB
 	Find(out interface{}, where ...interface{}) *gorm.DB
 	First(out interface{}, where ...interface{}) *gorm.DB
+	Update(id interface{}, after interface{}) *gorm.DB
 }
