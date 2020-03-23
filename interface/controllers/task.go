@@ -6,6 +6,8 @@ import (
 	usecase "go-todo-list-app/usecase/interactor"
 	"net/http"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 type TaskController struct {
@@ -55,7 +57,7 @@ func (taskController *TaskController) Show(c Context) {
 
 func (taskController *TaskController) Update(c Context) {
 	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
-	task, err := taskController.Interactor.Find(id)
+	_, err := taskController.Interactor.Find(id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, NewError(err))
 		return
@@ -69,10 +71,10 @@ func (taskController *TaskController) Update(c Context) {
 	}
 
 	t.ID = uint(id)
-	task, err = taskController.Interactor.Update(t)
+	err = taskController.Interactor.Update(t)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, NewError(err))
 		return
 	}
-	c.JSON(http.StatusOK, task)
+	c.JSON(http.StatusOK, gin.H{"status": "OK"})
 }
