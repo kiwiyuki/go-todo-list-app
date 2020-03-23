@@ -30,3 +30,9 @@ $ curl -X POST -H "Content-Type: application/json" -d '{"title": "todo1", "done"
 ```shell script
 $ curl localhost:8080/tasks/:id
 ```
+
+## Todo 更新
+
+```shell script
+$ curl -X PUT -H "Content-Type: application/json" -d '{"title": "todo1 yeah!", "done": true}' localhost:8080/tasks/1
+```
