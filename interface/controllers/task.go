@@ -52,3 +52,15 @@ func (taskController *TaskController) Show(c Context) {
 	}
 	c.JSON(http.StatusOK, task)
 }
+
+func (TaskController *TaskController) Update(c Context) {
+	t := model.Task{}
+	err := c.Bind(&t)
+
+	task, err := TaskController.Interactor.Update(t)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, NewError(err))
+		return
+	}
+	c.JSON(http.StatusOK, task)
+}
