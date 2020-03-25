@@ -20,24 +20,15 @@ func (tasksInteractor *TaskInteractor) Create(t model.Task) (task model.Task, er
 
 func (tasksInteractor *TaskInteractor) FindAll() (tasks []model.Task, err error) {
 	tasks, err = tasksInteractor.TaskRepository.FindAll()
-	if err != nil {
-		return
-	}
 	return
 }
 
 func (tasksInteractor *TaskInteractor) Find(id int64) (task model.Task, err error) {
 	task, err = tasksInteractor.TaskRepository.Find(id)
-	if err != nil {
-		return
-	}
 	return
 }
 
 func (TaskInteractor *TaskInteractor) Update(t model.Task) (err error) {
 	err = TaskInteractor.TaskRepository.Update(t)
-	if err != nil {
-		return
-	}
 	return
 }
