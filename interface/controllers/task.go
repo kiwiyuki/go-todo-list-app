@@ -46,7 +46,11 @@ func (taskController *TaskController) Index(c Context) {
 }
 
 func (taskController *TaskController) Show(c Context) {
-	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, NewError(err))
+		return
+	}
 	task, err := taskController.Interactor.Find(id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, NewError(err))
@@ -56,23 +60,24 @@ func (taskController *TaskController) Show(c Context) {
 }
 
 func (taskController *TaskController) Update(c Context) {
-	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
-	_, err := taskController.Interactor.Find(id)
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
+		c.JSON(http.StatusInternalServerError, NewError(err))
+		return
+	}
+	if _, err = taskController.Interactor.Find(id); err != nil {
 		c.JSON(http.StatusInternalServerError, NewError(err))
 		return
 	}
 
 	t := model.Task{}
-	err = c.Bind(&t)
-	if err != nil {
+	if err = c.Bind(&t); err != nil {
 		c.JSON(http.StatusInternalServerError, NewError(err))
 		return
 	}
 
 	t.ID = uint(id)
-	err = taskController.Interactor.Update(t)
-	if err != nil {
+	if err = taskController.Interactor.Update(t); err != nil {
 		c.JSON(http.StatusInternalServerError, NewError(err))
 		return
 	}
