@@ -1,8 +1,6 @@
 package model
 
 import (
-	"time"
-
 	"github.com/jinzhu/gorm"
 )
 
@@ -12,7 +10,6 @@ import (
 
 type Task struct {
 	gorm.Model
-	Title  string     `gorm:"NOT NULL"`
-	Done   bool       `gorm:"NOT NULL"`
-	DoneAt *time.Time `gorm:"DEFAULT NULL"`
+	Title string `gorm:"NOT NULL"`
+	Done  bool   `gorm:"NOT NULL"`
 }

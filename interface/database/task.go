@@ -2,7 +2,6 @@ package database
 
 import (
 	"go-todo-list-app/domain/model"
-	"time"
 )
 
 type TaskRepository struct {
@@ -26,11 +25,6 @@ func (taskRepository *TaskRepository) Find(id int64) (task model.Task, err error
 }
 
 func (taskRepository *TaskRepository) Update(t model.Task) (err error) {
-	if t.Done {
-		now := time.Now()
-		t.DoneAt = &now
-	}
 	err = taskRepository.Handler.Update(&t).Error
-
 	return
 }
