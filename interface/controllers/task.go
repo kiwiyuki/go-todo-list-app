@@ -6,6 +6,8 @@ import (
 	usecase "go-todo-list-app/usecase/interactor"
 	"net/http"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 type TaskController struct {
@@ -44,11 +46,40 @@ func (taskController *TaskController) Index(c Context) {
 }
 
 func (taskController *TaskController) Show(c Context) {
-	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, NewError(err))
+		return
+	}
 	task, err := taskController.Interactor.Find(id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, NewError(err))
 		return
 	}
 	c.JSON(http.StatusOK, task)
+}
+
+func (taskController *TaskController) Update(c Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, NewError(err))
+		return
+	}
+	if _, err = taskController.Interactor.Find(id); err != nil {
+		c.JSON(http.StatusInternalServerError, NewError(err))
+		return
+	}
+
+	t := model.Task{}
+	if err = c.Bind(&t); err != nil {
+		c.JSON(http.StatusInternalServerError, NewError(err))
+		return
+	}
+
+	t.ID = uint(id)
+	if err = taskController.Interactor.Update(t); err != nil {
+		c.JSON(http.StatusInternalServerError, NewError(err))
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"status": "OK"})
 }

@@ -23,3 +23,8 @@ func (taskRepository *TaskRepository) Find(id int64) (task model.Task, err error
 	err = taskRepository.Handler.First(&task, id).Error
 	return
 }
+
+func (taskRepository *TaskRepository) Update(t model.Task) (err error) {
+	err = taskRepository.Handler.Update(&t).Error
+	return
+}

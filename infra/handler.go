@@ -46,3 +46,7 @@ func (sqlHandler *SQLHandler) Find(out interface{}, where ...interface{}) *gorm.
 func (sqlHandler *SQLHandler) First(out interface{}, where ...interface{}) *gorm.DB {
 	return sqlHandler.Conn.First(out, where...)
 }
+
+func (sqlHandler *SQLHandler) Update(after interface{}) *gorm.DB {
+	return sqlHandler.Conn.Save(after)
+}
